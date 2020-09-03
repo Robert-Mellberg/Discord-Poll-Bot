@@ -10,7 +10,7 @@ Grammatiken för en fråga i Backus-Naur-Form
 > <FLERA_ARGUMENT> ::= "" | <FLERA_ARGUMENT> "{" <ETT_ARGUMENT> "}"  
 > <ETT_ARGUMENT> ::= "s: " <STRÄNG> | <TAL>":"<TAL>":"<TAL> " " <STRÄNG> | <TAL>":"<TAL>"*:"<TAL> " " <STRÄNG> | "anonym" | "j/n"  
 > <STRÄNG> ::= "" | <STRÄNG><KARAKTÄR>  
-> <TALL> ::= <SIFFRA> | <TALL><SIFFRA>  ""
+> <TALL_> ::= <SIFFRA> | <TALL><SIFFRA>  ""
 >
 
 En fråga är på formen "!fråga " {ARGUMENT1}{ARGUMENT2}{ARGUMENT3}...{ARGUMENTN}
