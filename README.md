@@ -15,12 +15,12 @@ Grammatiken för en fråga i Backus-Naur-Form
 
 En fråga är på formen "!fråga " {ARGUMENT<sub>1</sub>}{ARGUMENT<sub>2</sub>}{ARGUMENT<sub>3</sub>}...{ARGUMENT<sub>N</sub>}
 
-- {f: DIN FRÅGA HÄR}, argumentet specificerar frågan och är obligatorisk
+- **{f: DIN FRÅGA HÄR}**, argumentet specificerar frågan och är obligatorisk
 - {s: ETT SVARSALTERNATIV}, argumentet specificerar ett svarsalternativ och är frivilligt. Upprepa argumentet om du vill ha flera svarsalternativ.
-- {TAL<sub>1</sub>:TAL<sub>2</sub>:TAL<sub>3</sub> STRÄNG1}, argumentet kommer generera svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en differens på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
-- {TAL<sub>1</sub>:TAL<sub>2</sub>:TAL<sub>3</sub> STRÄNG1}, argumentet kommer generera svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en kvot på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
+- {TAL<sub>1</sub>:TAL<sub>2</sub>:TAL<sub>3</sub> STRÄNG1}, argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en differens på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
+- {TAL<sub>1</sub>:TAL<sub>2</sub>:TAL<sub>3</sub> STRÄNG1}, argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en kvot på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
 - {anonym}, argumentet specificerar att du vill vara anonym och är frivilligt, ditt discord-namn kommer då inte finnas på frågan.
-- {j/n}, argumentet kommer generera två svarsalternativ till frågan och är frivilligt, ja och nej.
+- {j/n}, argumentet genererar två svarsalternativ till frågan och är frivilligt, ja och nej.
 
 Om du inte specificerar några svarsalternativ kommer frågan istället att generera ett ID. Folk kan då svara på denna fråga genom att skriva "!svar" ID TAL. Genom att ange ett argument {TAL<sub>1</sub> TAL<sub>2</sub>} i frågan kan du begränsa vilka svar som är tillåtna. Svaren måste då vara ligga mellan TAL<sub>1</sub> och TAL<sub>2</sub>.  
 **Exempel**  
