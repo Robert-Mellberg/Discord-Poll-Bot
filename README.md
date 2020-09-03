@@ -26,7 +26,7 @@ Om du inte specificerar några svarsalternativ kommer frågan istället att gene
 **Exempel**  
 **!fråga {f: Tycker du om boten?}{j/n}:** Kommer generera en fråga med svarsalternativen A: Ja, B: Nej.  
 **!fråga {f: Hur lång är du?}{150:10:180 cm}:** Kommer generera en fråga med svarsalternativen A: 150 cm, B: 160 cm, C: 170 cm, D: 180 cm.  
-**!fråga {f: Hur mycket pengar har du?}{1000:10*:100000 kr}:** Kommer generera en fråga med svarsalternativen A: 1000 kr, B: 10000 kr, C: 100000 kr.  
+**!fråga {f: Hur mycket pengar har du?}{1000:10\*:100000 kr}:** Kommer generera en fråga med svarsalternativen A: 1000 kr, B: 10000 kr, C: 100000 kr.  
 **!fråga {f: Borde jag äta en pizza eller en hamburgare?}{anonym}{s: En pizza}{s: En hamburgare}:** Kommer generera en anonym fråga med svarsalternativen A: En pizza, B: En hamburgare.  
 **!fråga {f: Hur gammal är du?}{0 100}:** Kommer generera en fråga med ID och utan svarsalternativ. Användarna får då svara med !svar ID TAL där TAL måste vara större än 0 och mindre än 100.  
 
