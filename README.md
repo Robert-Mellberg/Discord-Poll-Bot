@@ -18,7 +18,7 @@ En fråga är på formen "!fråga " {ARGUMENT<sub>1</sub>}{ARGUMENT<sub>2</sub>}
 - **{f: DIN FRÅGA HÄR}**, argumentet specificerar frågan och är obligatorisk
 - **{s: ETT SVARSALTERNATIV}**, argumentet specificerar ett svarsalternativ och är frivilligt. Upprepa argumentet om du vill ha flera svarsalternativ.
 - **{TAL<sub>1</sub>:TAL<sub>2</sub>:TAL<sub>3</sub> STRÄNG1}**, argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en differens på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
-- **{TAL<sub>1</sub>:TAL<sub>2</sub>:TAL<sub>3</sub> STRÄNG1}**, argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en kvot på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
+- **{TAL<sub>1</sub>:TAL<sub>2</sub>\*:TAL<sub>3</sub> STRÄNG1}**, argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en kvot på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
 - **{anonym}**, argumentet specificerar att du vill vara anonym och är frivilligt, ditt discord-namn kommer då inte finnas på frågan.
 - **{j/n}**, argumentet genererar två svarsalternativ till frågan och är frivilligt, ja och nej.
 
