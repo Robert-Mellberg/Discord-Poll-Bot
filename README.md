@@ -13,16 +13,16 @@ Grammatiken för en fråga i Backus-Naur-Form
 > \<TAL\> ::= \<SIFFRA\> | \<TAL\>\<SIFFRA\>  ""
 >
 
-En fråga är på formen "!fråga " {ARGUMENT1}{ARGUMENT2}{ARGUMENT3}...{ARGUMENT<sub>N</sub>}
+En fråga är på formen "!fråga " {ARGUMENT<sub>1</sub>}{ARGUMENT<sub>2</sub>}{ARGUMENT<sub>3</sub>}...{ARGUMENT<sub>N</sub>}
 
 - {f: DIN FRÅGA HÄR}, argumentet specificerar frågan och är obligatorisk
 - {s: ETT SVARSALTERNATIV}, argumentet specificerar ett svarsalternativ och är frivilligt. Upprepa argumentet om du vill ha flera svarsalternativ.
-- {TAL1:TAL2:TAL3 STRÄNG1}, argumentet kommer generera svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL1 till TAL3 med en differens på TAL2 följt av STRÄNG1
-- {TAL1:TAL2:TAL3 STRÄNG1}, argumentet kommer generera svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL1 till TAL3 med en kvot på TAL2 följt av STRÄNG1
+- {TAL<sub>1</sub>:TAL<sub>2</sub>:TAL<sub>3</sub> STRÄNG1}, argumentet kommer generera svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en differens på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
+- {TAL<sub>1</sub>:TAL<sub>2</sub>:TAL<sub>3</sub> STRÄNG1}, argumentet kommer generera svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL<sub>1</sub> till TAL<sub>3</sub> med en kvot på TAL<sub>2</sub> följt av STRÄNG<sub>1</sub>
 - {anonym}, argumentet specificerar att du vill vara anonym och är frivilligt, ditt discord-namn kommer då inte finnas på frågan.
 - {j/n}, argumentet kommer generera två svarsalternativ till frågan och är frivilligt, ja och nej.
 
-Om du inte specificerar några svarsalternativ kommer frågan istället att generera ett ID. Folk kan då svara på denna fråga genom att skriva "!svar" ID TAL. Genom att ange ett argument {TAL1 TAL2} i frågan kan du begränsa vilka svar som är tillåtna. Svaren måste då vara ligga mellan TAL1 och TAL2.  
+Om du inte specificerar några svarsalternativ kommer frågan istället att generera ett ID. Folk kan då svara på denna fråga genom att skriva "!svar" ID TAL. Genom att ange ett argument {TAL<sub>1</sub> TAL<sub>2</sub>} i frågan kan du begränsa vilka svar som är tillåtna. Svaren måste då vara ligga mellan TAL<sub>1</sub> och TAL<sub>2</sub>.  
 **Exempel**  
 !fråga {f: Tycker du om boten?}{j/n}: Kommer generera en fråga med svarsalternativen A: Ja, B: Nej.  
 !fråga {f: Hur lång är du?}{150:10:180 cm} Kommer generera en fråga med svarsalternativen A: 150 cm, B: 160 cm, C: 170 cm, D: 180 cm.  
