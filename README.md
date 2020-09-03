@@ -2,6 +2,11 @@
 
 ## Introduktion
 
+
+<video width="320" height="240" controls>
+  <source src="Redigerad video.mp4" type="video/mp4">
+</video>
+
 ## Syntax
 Grammatiken för en fråga i Backus-Naur-Form
 
