@@ -5,12 +5,12 @@
 ## Syntax
 Grammatiken för en fråga i Backus-Naur-Form
 
-> <FRÅGA> ::= "!fråga " <FRÅGE_ARGUMENT><FLERA_ARGUMENT>  
-> <FRÅGE_ARGUMENT> ::= "{f: " <STRÄNG> "}"  
-> <FLERA_ARGUMENT> ::= "" | <FLERA_ARGUMENT> "{" <ETT_ARGUMENT> "}"  
-> <ETT_ARGUMENT> ::= "s: " <STRÄNG> | <TAL>":"<TAL>":"<TAL> " " <STRÄNG> | <TAL>":"<TAL>"*:"<TAL> " " <STRÄNG> | "anonym" | "j/n"  
-> <STRÄNG> ::= "" | <STRÄNG><KARAKTÄR>  
-> \<TAL\> ::= <SIFFRA> | \<TAL\><SIFFRA>  ""
+> \<FRÅGA\> ::= "!fråga " \<FRÅGE_ARGUMENT\>\<FLERA_ARGUMENT\>  
+> \<FRÅGE_ARGUMENT\> ::= "{f: " \<STRÄNG\> "}"  
+> \<FLERA_ARGUMENT\> ::= "" | \<FLERA_ARGUMENT\> "{" \<ETT_ARGUMENT\> "}"  
+> \<ETT_ARGUMENT\> ::= "s: " \<STRÄNG\> | \<TAL\>":"\<TAL\>":"\<TAL\> " " <STRÄNG> | \<TAL\>":"\<TAL\>"*:"\<TAL\> " " \<STRÄNG\> | "anonym" | "j/n"  
+> \<STRÄNG\> ::= "" | \<STRÄNG\>\<KARAKTÄR\>  
+> \<TAL\> ::= \<SIFFRA\> | \<TAL\>\<SIFFRA\>  ""
 >
 
 En fråga är på formen "!fråga " {ARGUMENT1}{ARGUMENT2}{ARGUMENT3}...{ARGUMENTN}
