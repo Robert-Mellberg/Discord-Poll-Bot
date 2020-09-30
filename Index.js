@@ -432,4 +432,5 @@ BOT.on('message', message => {
 /**
  * Loggar in
  */
-BOT.login(TOKEN);
+//BOT.login(TOKEN);
+BOT.login(process.env.BOT_TOKEN);
