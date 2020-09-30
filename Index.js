@@ -393,7 +393,7 @@ BOT.on('message', message => {
 
 
 		if (addAuthor) {
-			embed.setAuthor(message.author.username);
+			embed.setAuthor(message.member.displayName);
 		}
 		embed.setTitle(title);
 
