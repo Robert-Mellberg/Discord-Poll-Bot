@@ -1,4 +1,4 @@
-﻿// JavaScript source code
+// JavaScript source code
 
 //Token för discordboten
 const TOKEN = '';
@@ -242,6 +242,16 @@ function setUpMessageHandeler(botMessage, message, embed, restrictions) {
 	});
 }
 
+function addAnswer(state, answer) {
+	if (state.allAlternatives.length >= MAXREACTIONS) {
+		state.warnings += WARNINGTOOMANYARGUMENTS;
+		return;
+	}
+	state.allAlternatives.push([REACTIONS[state.currLetter], answer, 0]);
+	state.currLetter++;
+	state.onlyNumbers &= !isNaN(answer.split(" ", 1)[0]);
+}
+
 /**
  * Parsear argumentet som användaren skrev in, antingen på formen {num:num:num text} eller {num:num*:num text}. Lägger in alternativen i state.Allalternatives
  * 
@@ -255,7 +265,7 @@ function parseInterval(state, incrementFunction, argument) {
 
 	let extraText = " " + arr.join(' ');
 
-	[lowerBound, increment, upperBound] = [parseInt(result[0]), parseInt(result[1]), parseInt(result[2])];
+	[lowerBound, increment, upperBound] = [parseFloat(result[0]), parseFloat(result[1]), parseFloat(result[2])];
 
 	for (let n = lowerBound; n <= upperBound; n = incrementFunction(n, increment)) {
 		if (state.allAlternatives.length >= MAXREACTIONS) {
@@ -276,49 +286,43 @@ function parseInterval(state, incrementFunction, argument) {
 function parseInput(input) {
 
 
-	let args = input.substr(PREFIX.length).split(/}\s*{/);
-	if (args[0][0] == '{') {
-		args[0] = args[0].substr(1);
-	}
-	temp = args[args.length - 1];
-	if (temp.length != 0 && temp[temp.length - 1] == '}') {
-		args[args.length - 1] = temp.substr(0, temp.length - 1);
-	}
-
+	let args = input.substr(PREFIX.length).split(/}|{|]|\[|\||--/);
+	
 
 	let state = { title: "", addAuthor: true, yesNo: false, currLetter: 0, allAlternatives: [], onlyNumbers: true, errors: "", warnings: "", restrictions: { min: null, max: null } };
 
 	for (let i = 0; i < args.length; i++) {
 		argument = args[i];
-		if (/^-?(\d+:){2}-?\d+(\s.*)?$/.test(argument)) {
+		argument = argument.replace(/^\s+|\s+$/, "");
+		//eg. 10.00:10.00:100.00 test
+		if (/^-?(\d+(\.\d+)?:){2}-?\d+(\.\d+)?(\s.*)?$/.test(argument)) {
 
 			incrementFunction = (n, increment) => { return n + increment };
 			parseInterval(state, incrementFunction, argument);
 
 		}
-		else if (/^-?(\d+):(\d+)\*:-?(\d+)(\s.*)?$/.test(argument)) {
+		//eg. 10.00:10.00*:100.00 test
+		else if (/^-?(\d+)(\.\d+)?:(\d+)(\.\d+)?\*:-?(\d+)(\.\d+)?(\s.*)?$/.test(argument)) {
 
 			incrementFunction = (n, increment) => { return n * increment };
 			parseInterval(state, incrementFunction, argument);
 
 		}
+		//eg. f: är detta en fråga?
 		else if (/^(f|q)\s*:\s*.+$/i.test(argument)) {
-			args[i] = args[i].replace(/^f\s*:\s*/i, "");
-			state.title = args[i];
+			argument = argument.replace(/^(f|q)\s*:\s*/i, "");
+			state.title = argument;
 		}
+		//eg. s: detta är ett svar.
 		else if (/^(a|s)\s*:\s*.+$/i.test(argument)) {
-			if (state.allAlternatives.length >= MAXREACTIONS) {
-				state.warnings += WARNINGTOOMANYARGUMENTS;
-				continue;
-			}
-			args[i] = args[i].replace(/^s\s*:\s*/i, "");
-			state.allAlternatives.push([REACTIONS[state.currLetter], args[i], 0]);
-			state.currLetter++;
-			state.onlyNumbers &= !isNaN(args[i].split(" ", 1)[0]);
+			argument = argument.replace(/^(s|a)\s*:\s*/i, "");
+			addAnswer(state, argument);
 		}
+		//anonym
 		else if (/^anonym$/i.test(argument)) {
 			state.addAuthor = false;
 		}
+		//eg. j/n eller y/n (ja och nej alternativ)
 		else if (/^(j|y)\/n$/i.test(argument) && !state.yesNo) {
 			if (state.allAlternatives.length >= MAXREACTIONS - 1) {
 				state.warnings += WARNINGTOOMANYARGUMENTS;
@@ -329,14 +333,20 @@ function parseInput(input) {
 			state.onlyNumbers = false;
 			state.yesno = true;
 		}
-		else if (/-?\d+\s+-?\d+/.test(argument)) {
+		//eg. 0 100	anger ett intervall för vad svaret får ligga mellan
+		else if (/^-?\d+(\.\d+)?\s+-?\d+(\.\d+)?/.test(argument)) {
 			numbers = argument.split(/\s+/);
-			[t1, t2] = [parseInt(numbers[0]), parseInt(numbers[1])];
+			[t1, t2] = [parseFloat(numbers[0]), parseFloat(numbers[1])];
 			state.restrictions.min = Math.min(t1, t2);
 			state.restrictions.max = Math.max(t1, t2);
-        }
-		else {
-			state.warnings += "Varning: Kunde inte tolka argumentet '" + argument + "'.\n";
+		}
+		//eg. Är detta en fråga?
+		else if (/.+\?/.test(argument)) {
+			state.title = argument;
+		}
+		//eg. Detta är ett svar.
+		else if (/.+/.test(argument)) {
+			addAnswer(state, argument);
         }
 	}
 
