@@ -19,11 +19,17 @@ Observera att du måste ge boten de behörigheter den efterfrågar för att kunn
 Grammatiken för en fråga i Backus-Naur-Form
 
 > \<FRÅGA\> ::= "!fråga " \<FRÅGE_ARGUMENT\>\<FLERA_ARGUMENT\>  
+>
 > \<FRÅGE_ARGUMENT\> ::= "f: " \<STRÄNG\> | \<STRÄNG\> "?"  
+>
 > \<FLERA_ARGUMENT\> ::= "" | \<AVSKILJARE\> \<ETT_ARGUMENT\> \<FLERA_ARGUMENT\>
+>
 > \<ETT_ARGUMENT\> ::= "s: " \<STRÄNG\> | \<TAL\>":"\<TAL\>":"\<TAL\> " " <STRÄNG> | \<TAL\>":"\<TAL\>"*:"\<TAL\> " " \<STRÄNG\> | "anonym" | "j/n" | \<STRÄNG\> 
+>
 > \<STRÄNG\> ::= "" | \<STRÄNG\>\<KARAKTÄR\>  
+>
 > \<TAL\> ::= \<SIFFRA\> | \<TAL\>\<SIFFRA\>  ""
+>
 > \<TAL\> ::= 
 >
 
