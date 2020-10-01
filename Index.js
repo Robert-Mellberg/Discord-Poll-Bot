@@ -38,11 +38,13 @@ const FILTER = (reaction, user) => {
 };
 
 //Variabler som håller koll på giltiga ID och antal lediga ID.
-let amountOfAvailableIDs = AMOUNTOFIDS;
-let availableIDs = [];
-availableIDs.length = AMOUNTOFIDS;
-availableIDs.fill(true);
+//let amountOfAvailableIDs = AMOUNTOFIDS;
+//let availableIDs = [];
+//availableIDs.length = AMOUNTOFIDS;
+//availableIDs.fill(true);
 
+let amountOfAvailableIDs = [];
+let availableIDs = [[]];
 
 /**
  * Returnerar dagens datum som en sträng i formatet yyyy-mm-dd
@@ -102,9 +104,9 @@ function calculateStandardDeviation(occurrences, values, meanValue) {
  * @param {any} increment Anger hur stor tyngd reaktionen ska ha, 1 om reaktionen läggs till och -1 om reaktionen tas bort
  */
 function updateState(reaction, user, state, increment) {
-	if (reaction.emoji.name === '❌' && user === state.message.author) {
+	if (reaction.emoji.name === '❌' && user === state.author) {
 		state.collector.stop();
-		state.botMessage.delete({ timeout: 1000 });
+		state.botMessage.delete({ timeout: 1000 }).catch(err => console.log(err));
 		return;
 	}
 	foundReaction = false;
@@ -116,7 +118,7 @@ function updateState(reaction, user, state, increment) {
 		}
 	});
 	if (!foundReaction) {
-		reaction.remove();
+		reaction.remove().catch(err => console.log(err));
 	}
 
 	descript = "";
@@ -152,7 +154,7 @@ function setUpReactionHandeler(botMessage, message, allAlternatives, embed, only
 
 
 	const collector = botMessage.createReactionCollector(FILTER, { time: VALIDITYPERIOD, dispose: true });
-	let state = { botMessage: botMessage, message: message, allAlternatives: allAlternatives, embed: embed, totalReactions: 0, onlyNumbers: onlyNumbers, collector: collector };
+	let state = { botMessage: botMessage, author: message.author, allAlternatives: allAlternatives, embed: embed, totalReactions: 0, onlyNumbers: onlyNumbers, collector: collector };
 	collector.on('collect', (reaction, user) => {
 		updateState(reaction, user, state, 1);
 
@@ -221,11 +223,11 @@ function reactOnMessage(message, state) {
  */
 function setUpMessageHandeler(botMessage, message, embed, restrictions) {
 	let messageID = Math.floor(Math.random() * AMOUNTOFIDS);
-	while (!availableIDs[messageID]) {
+	while (!availableIDs[message.guild][messageID]) {
 		messageID = (messageID + 1) % AMOUNTOFIDS;
 	}
-	availableIDs[messageID] = false;
-	amountOfAvailableIDs--;
+	availableIDs[message.guild][messageID] = false;
+	amountOfAvailableIDs[message.guild]--;
 	descript = "ID: " + messageID + "\n";
 	if (restrictions.min != null) {
 		descript += "Ange ett tal mellan " + restrictions.min + " och " + restrictions.max + "\n";
@@ -243,8 +245,8 @@ function setUpMessageHandeler(botMessage, message, embed, restrictions) {
 	});
 
 	messageCollector.on('end', () => {
-		availableIDs[messageID] = true;
-		amountOfAvailableIDs++;
+		availableIDs[message.guild][messageID] = true;
+		amountOfAvailableIDs[message.guild]++;
 
 	});
 
@@ -252,8 +254,11 @@ function setUpMessageHandeler(botMessage, message, embed, restrictions) {
 	collector.on('collect', (reaction, user) => {
 		if (reaction.emoji.name === '❌' && user === message.author) {
 			messageCollector.stop();
-			botMessage.delete({ timeout: 1000 });
+			botMessage.delete({ timeout: 1000 }).catch(err => console.log(err));;
 		}
+		else if (reaction.emoji.name !== '👍' && reaction.emoji.name !== '💯') {
+			reaction.remove().catch(err => console.log(err));
+        }
 
 	});
 }
@@ -299,10 +304,10 @@ function parseInterval(state, incrementFunction, argument) {
  * 
  * @param {any} input Strängen på frågeskaparens meddelande
  */
-function parseInput(input) {
+function parseInput(message) {
 
 
-	let args = input.substr(PREFIX.length).split(/}|{|]|\[|\||--/);
+	let args = message.content.substr(PREFIX.length).split(/}|{|]|\[|\||--/);
 	
 
 	let state = { title: "", addAuthor: true, yesNo: false, currLetter: 0, allAlternatives: [], onlyNumbers: true, errors: "", warnings: "", restrictions: { min: null, max: null } };
@@ -371,7 +376,7 @@ function parseInput(input) {
 	}
 	if (state.allAlternatives.length !== 0 && state.restrictions.min !== null) 
 		state.warnings += "Varning: Restriktioner som du har angivit ignorerades eftersom du också angivit svarsalternativ\n";
-	if (state.allAlternatives.length === 0 && amountOfAvailableIDs === 0) 
+	if (state.allAlternatives.length === 0 && amountOfAvailableIDs[message.guild] === 0) 
 		state.errors += "Error: Det finns inget ledigt ID för din fråga, vänta tills en tidigare ställd går ut\n";
 
 	return [state.addAuthor, state.title, state.allAlternatives, state.onlyNumbers, state.errors, state.warnings, state.restrictions];
@@ -390,15 +395,29 @@ BOT.on('ready', () => {
  * 
  */
 BOT.on('message', message => {
-	if (message.content.substr(0, PREFIX.length).toLowerCase() == PREFIX) {
-		message.delete();
-		let [addAuthor, title, allAlternatives, onlyNumbers, errors, warnings, restrictions] = parseInput(message.content);
+
+	let savedMessage = { content: message.content, author: message.author, guild: message.guild, member: message.member, channel: message.channel };
+	if (savedMessage.content == null) {
+		return;
+	}
+	//console.log(message.author.username);
+	if (availableIDs[savedMessage.guild] == null) {
+		availableIDs[savedMessage.guild] = [];
+		availableIDs[savedMessage.guild].length = AMOUNTOFIDS;
+		availableIDs[savedMessage.guild].fill(true);
+		amountOfAvailableIDs[savedMessage.guild] = AMOUNTOFIDS;
+	}
+
+
+	if (savedMessage.content.substr(0, PREFIX.length).toLowerCase() == PREFIX) {
+
+		let [addAuthor, title, allAlternatives, onlyNumbers, errors, warnings, restrictions] = parseInput(savedMessage);
 		if (errors !== "") {
-			message.author.send(errors);
+			savedMessage.author.send(errors);
 			return;
 		}
 		if (warnings !== "") {
-			message.author.send(warnings);
+			savedMessage.author.send(warnings);
 		}
 
 		let embed = new DISCORD.MessageEmbed();
@@ -409,43 +428,46 @@ BOT.on('message', message => {
 
 
 		if (addAuthor) {
-			embed.setAuthor(message.member.displayName);
+			embed.setAuthor(savedMessage.member.displayName);
 		}
 		embed.setTitle(title);
-
 		embed.setDescription(descript);
+
 		if (allAlternatives.length !== 0) {
+			savedMessage.channel.send(embed).then(botMessage => {
 
-			message.channel.send(embed).then(botMessage => {
-
-				setUpReactionHandeler(botMessage, message, allAlternatives, embed, onlyNumbers);
+				setUpReactionHandeler(botMessage, savedMessage, allAlternatives, embed, onlyNumbers);
 			});
 		}
 		else {
-
-			message.channel.send(embed).then(botMessage => {
-
-				setUpMessageHandeler(botMessage, message, embed, restrictions);
+			savedMessage.channel.send(embed).then(botMessage => {
+				setUpMessageHandeler(botMessage, savedMessage, embed, restrictions);
 			});
 		}
+		message.delete().catch(err => console.log(err));
 
 	}
-	else if (/^!(ans|answer|svar|svara)\s*/.test(message.content)) {
-		message.delete();
-		res = message.content.replace(/^!(answer|svara)\s*/, "");
+	else if (/^!(ans|answer|svar|svara)\s*/.test(savedMessage.content)) {
+		res = savedMessage.content.replace(/^!(answer|svara)\s*/, "");
 		res = res.replace(/^!(ans|svar)\s*/, "").split(" ")[0];
 		if (res == "" || isNaN(res))
-			message.author.send("Det ID du angav kunde inte tolkas");
+			savedMessage.author.send("Det ID du angav kunde inte tolkas");
 		else {
 			let ID = parseInt(res);
-			if (availableIDs[ID] || ID < 0 || ID >= AMOUNTOFIDS)
-				message.author.send("Det ID du har angivit (" + ID + ") är inte giltigt.");
+			if (availableIDs[savedMessage.guild][ID] || ID < 0 || ID >= AMOUNTOFIDS)
+				savedMessage.author.send("Det ID du har angivit (" + ID + ") är inte giltigt.");
 		}
+		message.delete().catch(err => console.log(err));
 	}
 	else if (/!(hjälp|help)/.test(message.content)) {
-		message.delete();
-		message.author.send(HELPMESSAGE);
-    }
+		savedMessage.author.send(HELPMESSAGE);
+		message.delete().catch(err => console.log(err));
+	}
+	
+	
+});
+
+BOT.on('guildCreate', guild => {
 	
 });
 
