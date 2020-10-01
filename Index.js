@@ -459,7 +459,7 @@ BOT.on('message', message => {
 		}
 		message.delete().catch(err => console.log(err));
 	}
-	else if (/!(hjälp|help)/.test(message.content)) {
+	else if (/^!(hjälp|help)\s*$/.test(message.content)) {
 		savedMessage.author.send(HELPMESSAGE).catch(err => console.log(err));
 		savedMessage.author.send(HELPMESSAGE2).catch(err => console.log(err));
 		message.delete().catch(err => console.log(err));
