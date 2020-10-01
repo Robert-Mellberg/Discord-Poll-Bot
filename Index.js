@@ -3,7 +3,7 @@
 //Token för discordboten
 const TOKEN = '';
 //Det som man ska skriva innan en fråga
-const PREFIX = '!fråga ';
+const PREFIX = '!fråga';
 //Emojis som man får som svarsalternativ att reagera på.
 const REACTIONS = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
 //Max antal reaktioner, också max antal svarsalternativ.
