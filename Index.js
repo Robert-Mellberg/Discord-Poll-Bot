@@ -411,7 +411,7 @@ BOT.on('message', message => {
 
 
 	if (savedMessage.content.substr(0, PREFIX.length).toLowerCase() == PREFIX) {
-
+		message.delete().catch(err => console.log(err));
 		let [addAuthor, title, allAlternatives, onlyNumbers, errors, warnings, restrictions] = parseInput(savedMessage);
 		if (errors !== "") {
 			savedMessage.author.send(errors);
@@ -445,7 +445,6 @@ BOT.on('message', message => {
 				setUpMessageHandeler(botMessage, savedMessage, embed, restrictions);
 			});
 		}
-		message.delete().catch(err => console.log(err));
 
 	}
 	else if (/^!(ans|answer|svar|svara)\s*/.test(savedMessage.content)) {
