@@ -17,6 +17,7 @@ Grammatiken för en fråga i Backus-Naur-Form
 > \<ETT_ARGUMENT\> ::= "s: " \<STRÄNG\> | \<TAL\>":"\<TAL\>":"\<TAL\> " " <STRÄNG> | \<TAL\>":"\<TAL\>"*:"\<TAL\> " " \<STRÄNG\> | "anonym" | "j/n"  
 > \<STRÄNG\> ::= "" | \<STRÄNG\>\<KARAKTÄR\>  
 > \<TAL\> ::= \<SIFFRA\> | \<TAL\>\<SIFFRA\>  ""
+> \<AVSKILJARE\> ::= "|" | "}" | "{" | "]" | 
 >
 
 En fråga är på formen "!fråga " {ARGUMENT<sub>1</sub>}{ARGUMENT<sub>2</sub>}{ARGUMENT<sub>3</sub>}...{ARGUMENT<sub>N</sub>}. Argumentet kan vara:
