@@ -42,7 +42,7 @@ En fråga är på formen "!fråga " ARGUMENT<sub>1</sub>|ARGUMENT<sub>2</sub>|AR
 - **anonym**, argumentet specificerar att du vill vara anonym och är frivilligt, ditt discord-namn kommer då inte finnas på frågan.
 - **j/n**, argumentet genererar två svarsalternativ till frågan och är frivilligt, ja och nej.
 
-Om du inte specificerar några svarsalternativ kommer frågan istället att generera ett ID. Folk kan då svara på denna fråga genom att skriva **"!svar" ID TAL**. Genom att ange ett argument **{TAL<sub>1</sub> TAL<sub>2</sub>}** i frågan kan du begränsa vilka svar som är tillåtna. Svaren måste då vara ligga mellan TAL<sub>1</sub> och TAL<sub>2</sub>. 
+Om du inte specificerar några svarsalternativ kommer frågan istället att generera ett ID. Folk kan då svara på denna fråga genom att skriva **!svar ID TAL**. Genom att ange ett argument **{TAL<sub>1</sub> TAL<sub>2</sub>}** i frågan kan du begränsa vilka svar som är tillåtna. Svaren måste då vara ligga mellan TAL<sub>1</sub> och TAL<sub>2</sub>. 
 
 **Exempel**  
 
