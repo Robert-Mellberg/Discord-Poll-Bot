@@ -33,7 +33,7 @@ Grammatiken för en fråga i Backus-Naur-Form
 > \<AVSKILJARE\> ::= ("|" | "}" | "{" | "]" | "\[" | "--") \<AVSKILJARE\>
 >
 
-En fråga är på formen "!fråga " ARGUMENT<sub>1</sub>|ARGUMENT<sub>2</sub>|ARGUMENT<sub>3</sub>|...|ARGUMENT<sub>N</sub>}. Argumentet kan vara:
+En fråga är på formen !fråga ARGUMENT<sub>1</sub>|ARGUMENT<sub>2</sub>|ARGUMENT<sub>3</sub>|...|ARGUMENT<sub>N</sub>. Argumentet kan vara:
 
 - **f: DIN FRÅGA HÄR** eller **DIN FRÅGA HÄR?**, argumentet specificerar frågan och är obligatorisk
 - **s: ETT SVARSALTERNATIV** eller **ETT SVARSALTERNATIV**, argumentet specificerar ett svarsalternativ och är frivilligt. Upprepa argumentet om du vill ha flera svarsalternativ.
