@@ -30,7 +30,7 @@ Grammatiken för en fråga i Backus-Naur-Form
 >
 > \<TAL\> ::= \<SIFFRA\> | \<TAL\>\<SIFFRA\>  ""
 >
-> \<TAL\> ::= 
+> \<AVSKILJARE\> ::= ("|" | "}" | "{" | "]" | "\[" | "--") \<AVSKILJARE\>
 >
 
 En fråga är på formen "!fråga " ARGUMENT<sub>1</sub>|ARGUMENT<sub>2</sub>|ARGUMENT<sub>3</sub>|...|ARGUMENT<sub>N</sub>}. Argumentet kan vara:
