@@ -1,7 +1,7 @@
 // JavaScript source code
 
 //Token för discordboten
-const TOKEN = 'NzQ4OTk4MTAyNDg0MjU0ODcx.X0lk1w.Cer4NSLl85zpxRmnFglH2kW9rVc';
+const TOKEN = '';
 //Det som man ska skriva innan en fråga
 const PREFIX = '!fråga ';
 //Emojis som man får som svarsalternativ att reagera på.
