@@ -1,7 +1,7 @@
 // JavaScript source code
 
 //Token för discordboten
-const TOKEN = '';
+const TOKEN = 'NzQ4OTk4MTAyNDg0MjU0ODcx.X0lk1w.Cer4NSLl85zpxRmnFglH2kW9rVc';
 //Det som man ska skriva innan en fråga
 const PREFIX = '!fråga ';
 //Emojis som man får som svarsalternativ att reagera på.
@@ -12,6 +12,22 @@ const MAXREACTIONS = 10;
 const AMOUNTOFIDS = 10000;
 //Giltighetstiden för frågan i millisekunder (604800000 = 1 vecka)
 const VALIDITYPERIOD = 604800000;
+//Hjälpmeddelandet för hur boten fungerar
+const HELPMESSAGE = "En fråga är på formen **!fråga ARGUMENT|ARGUMENT|ARGUMENT|...|ARGUMENT**. Argumenten kan vara:\n\n" +
+	"```bash\n" + 
+	"\"f: DIN FRÅGA HÄR\" eller \"DIN FRÅGA HÄR?\", argumentet specificerar frågan och är obligatorisk\n\n" +
+	"\"s: ETT SVARSALTERNATIV\" eller \"ETT SVARSALTERNATIV\", argumentet specificerar ett svarsalternativ och är frivilligt. Upprepa argumentet om du vill ha flera svarsalternativ.\n\n" +
+	"\"TAL1:TAL2:TAL3 STRÄNG\", argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL1 till TAL3 med en differens på TAL2, följt av STRÄNG\n\n" +
+	"\"TAL1:TAL2*:TAL3 STRÄNG\", argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL1 till TAL3 med en kvot på TAL2, följt av STRÄNG\n\n" +
+	"\"anonym\", argumentet specificerar att du vill vara anonym och är frivilligt, ditt discord-namn kommer då inte finnas på frågan.\n\n" +
+	"\"j/n\", argumentet genererar två svarsalternativ till frågan och är frivilligt, ja och nej.```\n\n" +
+	"Om du inte specificerar några svarsalternativ kommer frågan istället att generera ett ID. Folk kan då svara på denna fråga genom att skriva **!svar ID TAL**. Genom att ange ett argument **TAL1 TAL2** i frågan kan du begränsa vilka svar som är tillåtna.Svaren måste då vara ligga mellan TAL1 och TAL2.\n\n" +
+	"Exempel:\n" +
+	"**!fråga Tycker du om boten?|j/n** Kommer generera en fråga med svarsalternativen A: Ja, B: Nej.\n\n" +
+	"**!fråga Hur lång är du?|150:10:180 cm** Kommer generera en fråga med svarsalternativen A: 150 cm, B: 160 cm, C: 170 cm, D: 180 cm.\n\n" +
+	"**!fråga Hur mycket pengar har du?|1000:10*:100000 kr** Kommer generera en fråga med svarsalternativen A: 1000 kr, B: 10000 kr, C: 100000 kr.\n\n" +
+	"**!fråga Borde jag äta en pizza eller en hamburgare?|anonym|En pizza|En hamburgare** Kommer generera en anonym fråga med svarsalternativen A: En pizza, B: En hamburgare.\n\n" +
+	"**!fråga Hur gammal är du?|0 100** Kommer generera en fråga med ID och utan svarsalternativ.Användarna får då svara med **!svar ID TAL** där TAL måste vara större än 0 och mindre än 100.\n\n";
 
 
 const WARNINGTOOMANYARGUMENTS = "Varning: Du kan inte ha mer än " + MAXREACTIONS + " argument, argumenten efter de första " + MAXREACTIONS + " argumenten ignorerades.\n";
@@ -418,13 +434,17 @@ BOT.on('message', message => {
 		message.delete();
 		res = message.content.replace(/^!(answer|svara)\s*/, "");
 		res = res.replace(/^!(ans|svar)\s*/, "").split(" ")[0];
-		if (res == "" || isNaN(res)) 
+		if (res == "" || isNaN(res))
 			message.author.send("Det ID du angav kunde inte tolkas");
 		else {
 			let ID = parseInt(res);
 			if (availableIDs[ID] || ID < 0 || ID >= AMOUNTOFIDS)
 				message.author.send("Det ID du har angivit (" + ID + ") är inte giltigt.");
-        }
+		}
+	}
+	else if (/!(hjälp|help)/.test(message.content)) {
+		message.delete();
+		message.author.send(HELPMESSAGE);
     }
 	
 });
