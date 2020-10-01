@@ -27,7 +27,8 @@ const HELPMESSAGE = "En fråga är på formen **!fråga ARGUMENT|ARGUMENT|ARGUME
 	"**!fråga Hur lång är du?|150:10:180 cm** Kommer generera en fråga med svarsalternativen A: 150 cm, B: 160 cm, C: 170 cm, D: 180 cm.\n\n" +
 	"**!fråga Hur mycket pengar har du?|1000:10*:100000 kr** Kommer generera en fråga med svarsalternativen A: 1000 kr, B: 10000 kr, C: 100000 kr.\n\n" +
 	"**!fråga Borde jag äta en pizza eller en hamburgare?|anonym|En pizza|En hamburgare** Kommer generera en anonym fråga med svarsalternativen A: En pizza, B: En hamburgare.\n\n" +
-	"**!fråga Hur gammal är du?|0 100** Kommer generera en fråga med ID och utan svarsalternativ.Användarna får då svara med **!svar ID TAL** där TAL måste vara större än 0 och mindre än 100.\n\n";
+	"**!fråga Hur gammal är du?|0 100** Kommer generera en fråga med ID och utan svarsalternativ.Användarna får då svara med **!svar ID TAL** där TAL måste vara större än 0 och mindre än 100.\n\n" +
+	"Om du inte vill använda **|** som avskiljare kan du använda något av följande istället  **}**  **{**  **]**  **[**  **--**";
 
 
 const WARNINGTOOMANYARGUMENTS = "Varning: Du kan inte ha mer än " + MAXREACTIONS + " argument, argumenten efter de första " + MAXREACTIONS + " argumenten ignorerades.\n";
