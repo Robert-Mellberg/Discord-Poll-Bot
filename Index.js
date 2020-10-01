@@ -351,7 +351,7 @@ function parseInput(input) {
 	}
 
 	if (state.title === "") {
-		state.errors += "Error: Du måste ställa en fråga, gör detta med argumentet {f: Din fråga här} t.ex {f: Är risgrynsgröt gott?}.\n";
+		state.errors += "Error: Du måste ställa en fråga, gör detta med argumentet \"f: Din fråga här\" t.ex \"f: Är risgrynsgröt gott?\" eller bara: \"Är risgrynsgröt gott?\".\n";
 	}
 	if (state.allAlternatives.length !== 0 && state.restrictions.min !== null) 
 		state.warnings += "Varning: Restriktioner som du har angivit ignorerades eftersom du också angivit svarsalternativ\n";
