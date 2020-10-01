@@ -7,6 +7,7 @@
 <video width="320" height="240" controls>
   <source src="Redigerad video.mp4" type="video/mp4">
 </video>
+
 **OBS: Syntaxen i videon är utdaterad**
 
 ## Bjud in boten till din server
@@ -22,6 +23,7 @@ Grammatiken för en fråga i Backus-Naur-Form
 > \<FLERA_ARGUMENT\> ::= "" | \<AVSKILJARE\> \<ETT_ARGUMENT\> \<FLERA_ARGUMENT\>
 > \<ETT_ARGUMENT\> ::= "s: " \<STRÄNG\> | \<TAL\>":"\<TAL\>":"\<TAL\> " " <STRÄNG> | \<TAL\>":"\<TAL\>"*:"\<TAL\> " " \<STRÄNG\> | "anonym" | "j/n" | \<STRÄNG\> 
 > \<STRÄNG\> ::= "" | \<STRÄNG\>\<KARAKTÄR\>  
+> \<TAL\> ::= \<SIFFRA\> | \<TAL\>\<SIFFRA\>  ""
 > \<TAL\> ::= \<SIFFRA\> | \<TAL\>\<SIFFRA\>  ""
 > \<AVSKILJARE\> ::= ("|" | "}" | "{" | "]" | "\[" | "--") \<AVSKILJARE\>
 >
@@ -45,9 +47,9 @@ Om du inte specificerar några svarsalternativ kommer frågan istället att gene
 
 **!fråga Hur mycket pengar har du?|1000:10\*:100000 kr** Kommer generera en fråga med svarsalternativen A: 1000 kr, B: 10000 kr, C: 100000 kr.  
 
-**!fråga Borde jag äta en pizza eller en hamburgare?|anonym|s: En pizza|s: En hamburgare:** Kommer generera en anonym fråga med svarsalternativen A: En pizza, B: En hamburgare.  
+**!fråga Borde jag äta en pizza eller en hamburgare?|anonym|s: En pizza|s: En hamburgare** Kommer generera en anonym fråga med svarsalternativen A: En pizza, B: En hamburgare.  
 
-**!fråga Hur gammal är du?|0 100:** Kommer generera en fråga med ID och utan svarsalternativ. Användarna får då svara med !svar ID TAL där TAL måste vara större än 0 och mindre än 100.  
+**!fråga Hur gammal är du?|0 100** Kommer generera en fråga med ID och utan svarsalternativ. Användarna får då svara med !svar ID TAL där TAL måste vara större än 0 och mindre än 100.  
 
 ## Kontakt
 Robert Mellberg
