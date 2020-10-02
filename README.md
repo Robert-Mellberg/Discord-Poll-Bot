@@ -13,6 +13,8 @@
 ## Bjud in boten till din server
 https://discord.com/oauth2/authorize?client_id=748998102484254871&scope=bot&permissions=1073769536
 
+Skriv **!hjälp** för att få instruktioner för hur man använder den eller läs syntaxen nedan.
+
 Observera att du måste ge boten de behörigheter den efterfrågar för att kunna utnyttja alla funktionaliteter.
 
 ## Syntax
