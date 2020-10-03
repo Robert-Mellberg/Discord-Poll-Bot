@@ -15,21 +15,27 @@ const VALIDITYPERIOD = 604800000;
 //Hjälpmeddelandet för hur boten fungerar
 const HELPMESSAGE = "En fråga är på formen **!fråga ARGUMENT|ARGUMENT|...|ARGUMENT**. Argumenten kan vara:\n\n" +
 	"```bash\n" +
-	"\"f: DIN FRÅGA HÄR\" eller \"DIN FRÅGA HÄR?\", argumentet specificerar frågan och är obligatorisk\n\n" +
-	"\"s: ETT SVARSALTERNATIV\" eller \"ETT SVARSALTERNATIV\", argumentet specificerar ett svarsalternativ och är frivilligt. Upprepa argumentet om du vill ha flera svarsalternativ.\n\n" +
-	"\"TAL1:TAL2:TAL3 STRÄNG\", argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL1 till TAL3 med en differens på TAL2, följt av STRÄNG\n\n" +
-	"\"TAL1:TAL2*:TAL3 STRÄNG\", argumentet genererar svarsalternativ och är frivilligt. Svarsalternativen kommer variera från TAL1 till TAL3 med en kvot på TAL2, följt av STRÄNG\n\n" +
-	"\"anonym\", argumentet specificerar att du vill vara anonym och är frivilligt, ditt discord-namn kommer då inte finnas på frågan.\n\n" +
-	"\"j/n\", argumentet genererar två svarsalternativ till frågan och är frivilligt, ja och nej.```\n\n" +
-	"Om du inte specificerar några svarsalternativ kommer frågan istället att generera ett ID. Folk kan då svara på denna fråga genom att skriva **!svar ID TAL**. Genom att ange ett argument **TAL1 TAL2** i frågan kan du begränsa vilka svar som är tillåtna.Svaren måste då vara ligga mellan TAL1 och TAL2.\n\n";
+	"\"f: DIN FRÅGA HÄR\" eller \"DIN FRÅGA HÄR?\", argumentet specificerar frågan och är obligatoriskt\n\n" +
+	"\"s: ETT SVARSALTERNATIV\" eller \"ETT SVARSALTERNATIV\", argumentet specificerar ett svarsalternativ. Upprepa argumentet om du vill ha flera svarsalternativ\n\n" +
+	"\"j/n\", argumentet genererar två svarsalternativ till frågan, ja och nej\n\n" +
+	"\"anonym\", argumentet specificerar att du vill vara anonym, ditt discord-namn kommer då inte finnas på frågan\n\n" +
+	"\"TAL1:TAL2:TAL3 STRÄNG\", argumentet genererar svarsalternativ. Svarsalternativen kommer variera från TAL1 till TAL3 med en differens på TAL2, följt av STRÄNG\n\n" +
+	"\"TAL1:TAL2*:TAL3 STRÄNG\", argumentet genererar svarsalternativ. Svarsalternativen kommer variera från TAL1 till TAL3 med en kvot på TAL2, följt av STRÄNG```\n\n" +
+	"Om du inte specificerar några svarsalternativ kommer frågan istället att generera ett **ID**. Folk kan då svara på denna fråga genom att skriva **!svar ID TAL**. Genom att ange ett argument **TAL1 TAL2** i frågan kan du begränsa vilka svar som är tillåtna. Svaren måste då vara ligga mellan **TAL1** och **TAL2**. Om du vill ta bort en fråga du ställt kan du reagera med ❌ på frågan.\n\n";
 
 const HELPMESSAGE2 = "Exempel:\n" +
+	"**!fråga Borde jag äta en pizza eller en hamburgare?|En pizza|En hamburgare** Kommer generera en fråga med svarsalternativen A: En pizza, B: En hamburgare.\n\n" +
+	"**!fråga Hur gammal är du?|0 100** Kommer generera en fråga med **ID** och utan svarsalternativ. Användarna får då svara med **!svar ID TAL** där **TAL** måste vara större än 0 och mindre än 100.\n\n" +
 	"**!fråga Tycker du om boten?|j/n** Kommer generera en fråga med svarsalternativen A: Ja, B: Nej.\n\n" +
-	"**!fråga Hur lång är du?|150:10:180 cm** Kommer generera en fråga med svarsalternativen A: 150 cm, B: 160 cm, C: 170 cm, D: 180 cm.\n\n" +
+	"**!fråga Hur lång är du?|anonym|150:10:180 cm** Kommer generera en anonym fråga med svarsalternativen A: 150 cm, B: 160 cm, C: 170 cm, D: 180 cm.\n\n" +
 	"**!fråga Hur mycket pengar har du?|1000:10*:100000 kr** Kommer generera en fråga med svarsalternativen A: 1000 kr, B: 10000 kr, C: 100000 kr.\n\n" +
-	"**!fråga Borde jag äta en pizza eller en hamburgare?|anonym|En pizza|En hamburgare** Kommer generera en anonym fråga med svarsalternativen A: En pizza, B: En hamburgare.\n\n" +
-	"**!fråga Hur gammal är du?|0 100** Kommer generera en fråga med ID och utan svarsalternativ.Användarna får då svara med **!svar ID TAL** där TAL måste vara större än 0 och mindre än 100.\n\n" +
 	"Om du inte vill använda **|** som avskiljare kan du istället använda  **}**  **{**  **]**  **[**  **--**";
+//Meddelandet som skickas till ägaren av servern när boten joinar
+const JOINMESSAGE = "Hej, kul att du lade till mig till den här servern! Tillsammans kan vi ställa alla tänkbara frågor 🙂\n" +
+	"De två vanligaste frågorna man kan ställa är på formen:\n\n" +
+	"**!fråga FRÅGA?|SVAR|SVAR|SVAR**, t.ex **!fråga Vad är din favoritfärg?|Röd|Grön|Blå**\n\n" +
+	"**!fråga FRÅGA?**, t.ex **!fråga Vad är ditt favoritnummer?**. Frågan genererar då ett ID som användarna får svara på med **!svar ID TAL**, t.ex **!svar 5904 100\n\n**" + 
+	"Om du vill veta alla funktioner, skriv **!hjälp**";
 
 const WARNINGTOOMANYARGUMENTS = "Varning: Du kan inte ha mer än " + MAXREACTIONS + " argument, argumenten efter de första " + MAXREACTIONS + " argumenten ignorerades.\n";
 const DISCORD = require('discord.js');
@@ -133,7 +139,7 @@ function updateState(reaction, user, state, increment) {
 		let standardDeviation = calculateStandardDeviation(occurrences, values, meanValue);
 		descript += "**Medelvärde**: " + meanValue.toFixed(2) + "\n **Standardavvikelse**: " + standardDeviation.toFixed(2);
 	}
-	state.botMessage.edit(state.embed.setDescription(descript));
+	state.botMessage.edit(state.embed.setDescription(descript)).catch(err => console.log(err));
 }
 
 /**
@@ -167,7 +173,7 @@ function setUpReactionHandeler(botMessage, message, allAlternatives, embed, only
 
 	collector.on('end', () => {
 
-		botMessage.edit(embed.addField('Denna fråga har gått ut', getDate()));
+		botMessage.edit(embed.addField('Denna fråga har gått ut', getDate())).catch(err => console.log(err));
 	});
 
 
@@ -211,7 +217,7 @@ function reactOnMessage(message, state) {
 	}
 	descript += "**Antal svar**: " + values.length + "\n" + "**Medelvärde**: " + meanValue.toFixed(2) + "\n **Standardavvikelse**: " + standardDeviation.toFixed(2);
 
-	state.botMessage.edit(state.embed.setDescription(descript));
+	state.botMessage.edit(state.embed.setDescription(descript)).catch(err => console.log(err));
 }
 
 /**
@@ -233,7 +239,7 @@ function setUpMessageHandeler(botMessage, message, embed, restrictions) {
 	if (restrictions.min != null) {
 		descript += "Ange ett tal mellan " + restrictions.min + " och " + restrictions.max + "\n";
 	}
-	botMessage.edit(embed.setDescription(descript));
+	botMessage.edit(embed.setDescription(descript)).catch(err => console.log(err));
 
 	const messageFilter = m => {
 		let regex = new RegExp('^!(ans|answer|svar|svara)\\s*' + messageID + '\\s+-?\\d+(\\.\\d+)?\\s*$');
@@ -248,14 +254,15 @@ function setUpMessageHandeler(botMessage, message, embed, restrictions) {
 	messageCollector.on('end', () => {
 		availableIDs[message.guild][messageID] = true;
 		amountOfAvailableIDs[message.guild]++;
-
+		botMessage.edit(embed.addField('Denna fråga har gått ut', getDate())).catch(err => console.log(err));
 	});
 
 	const collector = botMessage.createReactionCollector(FILTER, { time: VALIDITYPERIOD, dispose: true });
 	collector.on('collect', (reaction, user) => {
 		if (reaction.emoji.name === '❌' && user === message.author) {
 			messageCollector.stop();
-			botMessage.delete({ timeout: 1000 }).catch(err => console.log(err));;
+			collector.stop();
+			botMessage.delete({ timeout: 1000 }).catch(err => console.log(err));
 		}
 		else if (reaction.emoji.name !== '👍' && reaction.emoji.name !== '💯') {
 			reaction.remove().catch(err => console.log(err));
@@ -398,7 +405,7 @@ BOT.on('ready', () => {
 BOT.on('message', message => {
 
 	let savedMessage = { content: message.content, author: message.author, guild: message.guild, member: message.member, channel: message.channel };
-	if (savedMessage.content == null) {
+	if (savedMessage.member == null) {
 		return;
 	}
 	//console.log(message.author.username);
@@ -411,7 +418,7 @@ BOT.on('message', message => {
 
 
 	if (savedMessage.content.substr(0, PREFIX.length).toLowerCase() == PREFIX) {
-		message.delete().catch(err => console.log(err));
+		message.delete({ timeout: 100 }).catch(err => console.log(err));
 		let [addAuthor, title, allAlternatives, onlyNumbers, errors, warnings, restrictions] = parseInput(savedMessage);
 		if (errors !== "") {
 			savedMessage.author.send(errors);
@@ -438,12 +445,12 @@ BOT.on('message', message => {
 			savedMessage.channel.send(embed).then(botMessage => {
 
 				setUpReactionHandeler(botMessage, savedMessage, allAlternatives, embed, onlyNumbers);
-			});
+			}).catch(err => console.log(err));
 		}
 		else {
 			savedMessage.channel.send(embed).then(botMessage => {
 				setUpMessageHandeler(botMessage, savedMessage, embed, restrictions);
-			});
+			}).catch(err => console.log(err));
 		}
 
 	}
@@ -451,25 +458,25 @@ BOT.on('message', message => {
 		res = savedMessage.content.replace(/^!(answer|svara)\s*/, "");
 		res = res.replace(/^!(ans|svar)\s*/, "").split(" ")[0];
 		if (res == "" || isNaN(res))
-			savedMessage.author.send("Det ID du angav kunde inte tolkas");
+			savedMessage.author.send("Det ID du angav kunde inte tolkas").catch(err => console.log(err));
 		else {
 			let ID = parseInt(res);
 			if (availableIDs[savedMessage.guild][ID] || ID < 0 || ID >= AMOUNTOFIDS)
-				savedMessage.author.send("Det ID du har angivit (" + ID + ") är inte giltigt.");
+				savedMessage.author.send("Det ID du har angivit (" + ID + ") är inte giltigt.").catch(err => console.log(err));
 		}
-		message.delete().catch(err => console.log(err));
+		message.delete({ timeout: 100 }).catch(err => console.log(err));
 	}
 	else if (/^!(hjälp|help)\s*$/.test(message.content)) {
 		savedMessage.author.send(HELPMESSAGE).catch(err => console.log(err));
 		savedMessage.author.send(HELPMESSAGE2).catch(err => console.log(err));
-		message.delete().catch(err => console.log(err));
+		message.delete({ timeout: 100 }).catch(err => console.log(err));
 	}
 	
 	
 });
 
 BOT.on('guildCreate', guild => {
-	
+	guild.owner.send(JOINMESSAGE).catch(err => console.log(err));
 });
 
 /**
